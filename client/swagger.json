@@ -1,0 +1,3799 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Restaurant Doucument.",
+    "version": "1.0.0",
+    "title": "Restaurant API"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [{
+    "name": "pet",
+    "description": "Everything about your Pets",
+    "externalDocs": {
+      "description": "Find out more",
+      "url": "http://swagger.io"
+    }
+  }, {
+    "name": "store",
+    "description": "Access to Petstore orders"
+  }, {
+    "name": "user",
+    "description": "Operations about user",
+    "externalDocs": {
+      "description": "Find out more about our store",
+      "url": "http://swagger.io"
+    }
+  }],
+  "schemes": ["http"],
+  "paths": {
+    "/api/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "INDEX-1 || Registration",
+        "description": "Registration",
+        "operationId": "createUser",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create user object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }  
+    },
+    "/auth/local": {
+      "post": {
+        "tags": ["User"],
+        "summary": "INDEX-2 || Log in",
+        "description": "Logs user into the application",
+        "operationId": "loginUser",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "email",
+          "in": "query",
+          "description": "The user name and password for login",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "password",
+          "in": "query",
+          "description": "The password for login in clear text",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/api/user/byadmin/": {
+      "post": {
+        "tags": ["User"],
+        "summary": "INDEX-2 ||Create user by admin only",
+        "description": "Create user by admin only",
+        "operationId": "loginUser",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create user object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/api/users/:id/password": {
+      "put": {
+        "tags": ["User"],
+        "summary": "INDEX-3 || Micra App - Vendor - WF - 04 change password",
+        "description": "Update an existing user account password.",
+        "operationId": "updateUserPassword",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+       "parameters": [ {
+        "name": "body",
+        "in": "body",
+        "required": true,
+        "type": "string",
+          "schema": {
+            "$ref": "#/definitions/password"
+          }
+        },
+        {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user.",
+            "required": true,
+            "type": "string"
+          },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+        }],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+           "204": {
+            "description": "Password updated"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+    },
+     
+    "/api/users/{id}":{
+      "put": {
+        "tags": ["User"],
+        "summary": "INDEX-4 || edit  profile(put flag value 1 while updating image else flag value must be 0.)",
+        "description": "Update an existing user",
+        "operationId": "updateUser",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          },
+          {
+          "in": "body",
+          "name": "body",
+          "description": "user object with those key-value pairs which has to updates.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "user not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary":"INDEX-5 || User info",
+        "description": "A single entity would be returned.",
+        "operationId": "findASingleUser",
+        "produces": [ "application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "No authorization token was found."
+          }
+        }
+      }
+    },
+    "/api/users/me":{
+      "get":{
+        "tags":["User"],
+        "summary":"INDEX-6 || get user info ",
+        "description":"Get user info by themselves",
+        "operationId":"getUserInfo",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        }
+      }
+    },
+    "/api/users/store/info":{
+      "get":{
+        "tags":["User"],
+        "summary":"INDEX-6 || get store info ",
+        "description":"Get user info by themselves",
+        "operationId":"getStoreInfo",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "404": {
+            "description": "Store not found."
+          }
+        }
+      }
+    },
+    "/api/categories":{
+      "get":{
+        "tags":["Category"],
+        "summary":"INDEX-17 ||Get all categories.",
+        "description":"Get all categories.",
+        "operationId":"getAllCategories",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Category"],
+        "summary": "INDEX-18 ||  Admin Can only Create Category object.",
+        "description": "add Category.",
+        "operationId": "AddCategory",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Admin Can only Create Category object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{id}":{
+      "get":{
+        "tags":["Category"],
+        "summary":"INDEX-18 ||A single Category.",
+        "description":"Get a single Category.",
+        "operationId":"getASingleCategory",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Category id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No category found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Category"],
+        "summary": "INDEX-19 || edit Category",
+        "description": "Admin Can only  Update an existing Category",
+        "operationId": "updateCategory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Category object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Category"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Category id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Category updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Category not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Category"],
+        "summary": "INDEX-20 ||  delete Category",
+        "description": " Admin Can only  Delete an existing Category",
+        "operationId": "deleteCategory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Category id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Category not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/categories/recent/six":{
+      "get":{
+        "tags":["Category"],
+        "summary":"Last six category.",
+        "description":"Last six category.",
+        "operationId":"LastSixCategory",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  
+      ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No category found"
+          }
+        }
+      },
+    },
+    "/api/menuItems":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"INDEX-17 ||Get all menuItems.",
+        "description":"Get all menuItems.",
+        "operationId":"getAllmenuItems",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Menu Items"],
+        "summary": "INDEX-18 ||  add new Products.",
+        "description": "Admin Can only add Products.",
+        "operationId": "AddProducts",
+         "consumes": ["application/json"],
+         "produces": ["application/json"],
+         "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Products object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/menuItems"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/menuItems/{id}":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"INDEX-18 ||A single menuItems.",
+        "description":"Get a single menuItems.",
+        "operationId":"getASinglemenuItems",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "menuItems id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No category found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Menu Items"],
+        "summary": "INDEX-19 || edit menuItems",
+        "description": "Admin Can only  Update an existing menuItems",
+        "operationId": "updatemenuItems",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update menuItems object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/menuItems"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "menuItems id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/menuItems"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "menuItems updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "menuItems not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Menu Items"],
+        "summary": "INDEX-20 ||  delete menuItems",
+        "description": "Admin Can only  Delete an existing menuItems",
+        "operationId": "deletemenuItems",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "menuItems id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "menuItems not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/menuItems/by/category/{id}":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"INDEX-17 ||Get all menu Items by Category id.",
+        "description":"Get all menuItems.",
+        "operationId":"getAllProducts",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      }
+    },
+    "/api/menuItems/category/menu/":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"INDEX-17 ||Get all menu Items count of all categories.",
+        "description":"Get all menuItems count.",
+        "operationId":"getAllMenuitemsCountsByCategory",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Category found"
+          }
+        }
+      }
+    },
+    "/api/menuItems/offer/available/":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"Get all menu Items on which offer available.",
+        "description":"Get all menu Items on which offer available.",
+        "operationId":"getAllOfferAvlMenuitems",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Category found"
+          }
+        }
+      }
+    },
+    "/api/menuItems/offer/count":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"Get all menu Items counts on which offer available.",
+        "description":"Get all menu Items countson which offer available.",
+        "operationId":"getAllOfferCountMenuitems",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Menu item found"
+          }
+        }
+      }
+    },
+    "/api/menuItems/by/name":{
+      "get":{
+        "tags":["Menu Items"],
+        "summary":"Search menu item by name.",
+        "description":"Search menu item by name.",
+        "operationId":"SearchByName",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "menuitem name",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Menu item found"
+          }
+        }
+      }
+    },
+    "/api/favourites":{
+      "get":{
+        "tags":["Favourite"],
+        "summary":"INDEX-21 ||Get all favourites.",
+        "description":"Get all favourites.",
+        "operationId":"getAllFavourites",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Admin access",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Favourite found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Favourite"],
+        "summary": "INDEX-22 ||  add new Favourite.",
+        "description": "Admin Can only  add Favourite.",
+        "operationId": "AddFavourite",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Favourite object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Favourite"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/favourites/{id}":{
+      "get":{
+        "tags":["Favourite"],
+        "summary":"INDEX-21 ||Get a single favourite.",
+        "description":"Get a single favourite.",
+        "operationId":"getAFavourite",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Auth Required",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          },
+         {
+            "name": "favourite id",
+            "in": "header",
+            "description": "Favourite id",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Favourite found"
+          }
+        }
+      },
+      "delete": {
+          "tags": ["Favourite"],
+          "summary": "INDEX-20 ||  delete Favourite",
+          "description": "Admin Can only  Delete an existing Favourite",
+          "operationId": "deleteFavourite",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+           {
+            "in": "path",
+            "name": "id",
+            "description": "Favourite id.",
+            "required": true
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+            }],
+          "responses": {
+            "200": {
+              "description": "No content found"
+            },
+            "404": {
+              "description": "Favourite not found."
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+        }
+      },
+    "/api/favourites/user/fav":{
+      "get":{
+        "tags":["Favourite"],
+        "summary":"Get all favourites.",
+        "description":"Get all favourites of a user.",
+        "operationId":"getAllFavouritesOfUser",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Required.",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Favourite found"
+          }
+        }
+      },
+    },
+     "/api/favourites/check":{
+      "post":{
+        "tags":["Favourite"],
+        "summary":"Check whether a menuitem is favourite or not.",
+        "description":"Check whether a menuitem is favourite or not.",
+        "operationId":"checkFavouriteOrNot",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "put menuItem id",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/menuitemId"
+          }
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Token Required.",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+    },
+    "/api/notifications/unread/all":{
+      "get":{
+        "tags":["Notification"],
+        "summary":"Get all unread notifications.",
+        "description":"Get all unread notifications.",
+        "operationId":"getAllNotification",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Admin access",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Notification found"
+          }
+        }
+      }
+    },
+    "/api/notifications/all/read":{
+      "get": {
+        "tags": ["Notification"],
+        "summary": "Update all unread notification to read.",
+        "description": "Update all unread notification to read.",
+        "operationId": "updateNotification",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/coupons":{
+      "get":{
+        "tags":["Coupon"],
+        "summary":"INDEX-21 ||Get all coupons.",
+        "description":"Get all coupons.",
+        "operationId":"getAllCoupons",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Coupon"],
+        "summary": "INDEX-22 ||  add new Coupons.",
+        "description": "Admin Can only  add Coupons.",
+        "operationId": "AddCoupons",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Coupon object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Coupon"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/coupons/{id}":{
+      "get":{
+        "tags":["Coupon"],
+        "summary":"INDEX-23 ||A single Coupons.",
+        "description":"Get a single Coupons.",
+        "operationId":"getASingleCoupons",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Coupons id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No category found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Coupon"],
+        "summary": "INDEX-24 || edit Coupon",
+        "description": "Admin Can only  Update an existing Coupon",
+        "operationId": "updateCoupon",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Coupon object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Coupon"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Coupon id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Coupon"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Coupons updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Coupons not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Coupon"],
+        "summary": "INDEX-25 ||  delete Coupon",
+        "description": "Admin Can only  Delete an existing Coupon",
+        "operationId": "deleteCoupons",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Coupons id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Coupon not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/tags":{
+      "get":{
+        "tags":["Tags"],
+        "summary":"INDEX-21 ||Get all tags.",
+        "description":"Get all tags.",
+        "operationId":"getAlltags",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tags"],
+        "summary": "INDEX-22 ||  add new tags.",
+        "description": "Admin Can only  add tags.",
+        "operationId": "Addtags",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Tags object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Tags"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/tags/{id}":{
+      "get":{
+        "tags":["Tags"],
+        "summary":"INDEX-23 ||A single tags.",
+        "description":"Get a single tags.",
+        "operationId":"getASingletags",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "tags id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No category found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Tags"],
+        "summary": "INDEX-24 || edit Tags",
+        "description": "Admin Can only  Update an existing Tags",
+        "operationId": "updateTags",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Tags"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Tags id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Tags"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "tags updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "tags not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tags"],
+        "summary": "INDEX-25 ||  delete Tags",
+        "description": "Admin Can only  Delete an existing Tags",
+        "operationId": "deletetags",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "tags id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Tags not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+
+    "/api/upcomings/{id}":{
+      "get":{
+        "tags":["Upcoming"],
+        "summary":"INDEX-23 ||A single upcomings.",
+        "description":"Get a single upcomings.",
+        "operationId":"getASingleUpcomings",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "upcomings id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No upcomings found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Upcoming"],
+        "summary": "INDEX-24 || edit upcoming",
+        "description": "Admin Can only  Update an existing upcoming",
+        "operationId": "updateUpcoming",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Upcoming"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Upcoming id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Upcoming"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Upcoming updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Upcoming not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Upcoming"],
+        "summary": "INDEX-25 ||  delete Upcoming",
+        "description": "Admin Can only  Delete an existing Upcoming",
+        "operationId": "deleteUpcoming",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Upcoming id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Upcoming not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    
+    "/api/settings":{
+      "get":{
+        "tags":["Setting"],
+        "summary":"Get all Settings(Admin Auth Required).",
+        "description":"Get all Settings.",
+        "operationId":"getAllSettings",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Setting found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Setting"],
+        "summary": "Add new settings(Admin Auth Required).",
+        "description": "Admin Can only  add settings & get or update.",
+        "operationId": "Addtags",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create settings object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Settings"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/settings/{id}":{
+      "get":{
+        "tags":["Setting"],
+        "summary":"A single Setting(Admin Auth Required).",
+        "description":"Get a single Setting.",
+        "operationId":"getASingleSetting",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Setting id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Setting found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Setting"],
+        "summary": "edit Setting(Admin Auth Required)",
+        "description": "Admin Can only  Update an existing Setting",
+        "operationId": "updateSetting",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Setting object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Setting"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Upcoming id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Setting"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Setting updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Setting not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Setting"],
+        "summary": "Delete Setting(Admin Auth Required)",
+        "description": "Admin Can only  Delete an existing Setting",
+        "operationId": "deleteSetting",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Setting id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Setting not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/news":{
+      "get":{
+        "tags":["News"],
+        "summary":"INDEX-21 ||Get all news.",
+        "description":"Get all News.",
+        "operationId":"getAllNews",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["News"],
+        "summary": "add new news.",
+        "description": "Admin Can only  add News.",
+        "operationId": "AddNews",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create News object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/News"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/news/{id}":{
+      "get":{
+        "tags":["News"],
+        "summary":"INDEX-23 ||A single News.",
+        "description":"Get a single News.",
+        "operationId":"getASingleNews",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "News id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No News found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["News"],
+        "summary": "INDEX-24 || edit News",
+        "description": "Admin Can only  Update an existing News",
+        "operationId": "updateNews",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/News"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "News id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/News"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "News updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "News not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["News"],
+        "summary": "INDEX-25 ||  delete News",
+        "description": "Admin Can only  Delete an existing News",
+        "operationId": "deleteNews",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "News id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "News not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/news/by/title":{
+      "post": {
+        "tags": ["News"],
+        "summary": "Search news by news title.",
+        "description": "Search news by news title.",
+        "operationId": "SearchNews",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "header",
+          "name": "body",
+          "description": "News key to search",
+          "required": true
+
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/orders/user/allorders":{
+      "get":{
+        "tags":["Order"],
+        "summary":"Get all Orders of a user.",
+        "description":"Get all Orders of a user.",
+        "operationId":"getAllOrderOfAUser",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+    },
+    "/api/orders/user/status/{id}":{
+      "get":{
+        "tags":["Order"],
+        "summary":"Get notification of an order.",
+        "description":"Get notification of an order.",
+        "operationId":"getNotification",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+          {
+          "in": "path",
+          "name": "id",
+          "description": "Order id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+    },
+    "/api/orders":{
+      "get":{
+        "tags":["Order"],
+        "summary":"INDEX-31 ||Get all Order.",
+        "description":"Get all Orders.",
+        "operationId":"getAllOrder",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Order"],
+        "summary": "INDEX-32 ||  add new Order.",
+        "description": "add Order.",
+        "operationId": "AddOrder",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Order object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/orders/earning/graph/":{
+      "post":{
+        "tags":["Order"],
+        "summary":"INDEX-31 ||Get Graph of Bar Data.",
+        "description":"Get Graph of Bar Data of all Orders.",
+        "operationId":"getAllOrder",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+    },
+    "/api/orders/{id}":{
+      "get":{
+        "tags":["Order"],
+        "summary":"INDEX-33 ||A single Order.",
+        "description":"Get a single Order.",
+        "operationId":"getASingleOrder",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Order id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Order found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Order"],
+        "summary": "INDEX-34 || edit Order",
+        "description": "Update an existing Order",
+        "operationId": "updateOrder",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Order object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Order"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Order id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Order updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Order"],
+        "summary": "INDEX-35 ||  delete Order",
+        "description": " Delete an existing Order",
+        "operationId": "deleteOrder",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Order id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Order not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/businesses":{
+      "get":{
+        "tags":["Business"],
+        "summary":"INDEX-21 ||Get all businesses.",
+        "description":"Get all businesses.",
+        "operationId":"getAllBusinesses",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No card found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Business"],
+        "summary": "INDEX-22 ||  add new business.",
+        "description": "Admin Can only  add business.",
+        "operationId": "Addbusiness",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create business object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Business"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/businesses/{id}":{
+      "get":{
+        "tags":["Business"],
+        "summary":"INDEX-23 ||A single businesses.",
+        "description":"Get a single businesses.",
+        "operationId":"getASinglebusinesses",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "businesses id.",
+          "required": true
+        },
+        {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No business found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Business"],
+        "summary": "INDEX-24 || edit Business",
+        "description": "Admin Can only  Update an existing Business",
+        "operationId": "updateBusiness",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Business object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Business"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Business id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Business"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "tags updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "tags not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Business"],
+        "summary": "INDEX-25 ||  delete Business",
+        "description": "Admin Can only  Delete an existing Business",
+        "operationId": "deleteBusiness",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Business id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Business not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    
+    "/api/messages/counts/{flag}": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "get count of unread messages",
+        "description": "for seller flag value should be 1 and for user 0",
+        "operationId": "getUnreadCount",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no unread messages found"
+          }
+        }
+      }
+    },
+    "/api/messages/mark/read": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "mark all unread messages to read(seller access)",
+        "description": "for seller flag value should be 1 and for user 0",
+        "operationId": "getUnreadCount",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no unread messages found"
+          }
+        }
+      }
+    },
+    "/api/messages": {
+      "post": {
+        "tags": ["Message"],
+        "summary": "post new Message.",
+        "description": "Send message.",
+        "operationId": "sendmessage",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create business object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Message"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+    
+      "get": {
+        "tags": ["Message"],
+        "summary": "get a list of seller who had ever contacted through a user",
+        "description": "get a list of seller list with their last messages.",
+        "operationId": "getSellersLastMsg",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no data found"
+          }
+        }
+      }
+    },
+    "/api/messages/seller/index/": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "get a list of user who had ever contacted through a seller",
+        "description": "get a list of user list with their last messages.",
+        "operationId": "getUsersLastMsg",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no data found"
+          }
+        }
+      }
+    },
+     "/api/messages/user/{id}": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "chat page",
+        "description": "get a single thread of messages.",
+        "operationId": "getSingleThreadMessages",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "description": "seller Id.",
+          "required": true
+        },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no data found"
+          }
+        }
+      }
+    },
+    "/api/messages/{id}": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "chat page",
+        "description": "get a single thread of messages.",
+        "operationId": "getSingleThreadMessages",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "description": "user Id.",
+          "required": true
+        },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "API key",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "default": "xxxx"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "no data found"
+          }
+        }
+      }
+    },
+    
+    "/api/addresses/user":{
+      "get":{
+        "tags":["Address"],
+        "summary":"Get all Address of a user/seller/employee.",
+        "description":"Get all Address.",
+        "operationId":"getAllAddress",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No address found"
+          }
+        }
+      }
+    },
+    "/api/addresses":{
+      "post": {
+        "tags": ["Address"],
+        "summary": "add new Address.",
+        "description": "add Address.",
+        "operationId": "AddAddress",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Address object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Address"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/addresses/{id}":{
+      "get":{
+        "tags":["Address"],
+        "summary":"A single Address.",
+        "description":"Get a single Address.",
+        "operationId":"getASingleAddress",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Address id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Address found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Address"],
+        "summary": "Edit Address",
+        "description": "Admin Can only  Update an existing Address",
+        "operationId": "updateAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Address"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Address id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Address"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Address updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Address not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Address"],
+        "summary": "INDEX-25 ||  delete Address",
+        "description": "Delete an existing Address",
+        "operationId": "deleteAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Address id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Address not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/booktables/user":{
+      "get":{
+        "tags":["Booktable"],
+        "summary":"Get all Booktable of a user/seller/employee.",
+        "description":"Get all Booktable.",
+        "operationId":"getAllAddress",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Booktable found"
+          }
+        }
+      }
+    },
+    "/api/booktables":{
+      "post": {
+        "tags": ["Booktable"],
+        "summary": "add new Booktable.",
+        "description": "add Booktable.",
+        "operationId": "AddBooktable",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Booktable object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Booktable"
+          }
+        },
+       {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/booktables/{id}":{
+      "get":{
+        "tags":["Booktable"],
+        "summary":"A single Booktable.",
+        "description":"Get a single Booktable.",
+        "operationId":"getASingleBooktable",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Booktable id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Booktable found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Booktable"],
+        "summary": "Edit Booktable",
+        "description": "Admin Can only  Update an existing Booktable",
+        "operationId": "updateBooktable",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Booktable"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Booktable id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Booktable"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Booktable updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Booktable not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Booktable"],
+        "summary": "INDEX-25 ||  delete Booktable",
+        "description": "Delete an existing Booktable",
+        "operationId": "deleteBooktable",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Booktable id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Booktable not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/api/contacts":{
+      "get":{
+        "tags":["Contact"],
+        "summary":"Get all contacts.",
+        "description":"Get all contacts.",
+        "operationId":"getAllContacts",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Contact found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Contact"],
+        "summary": "add new Contact.",
+        "description": "add Contact.",
+        "operationId": "AddContact",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Contact object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Contact"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/contacts/{id}":{
+      "get":{
+        "tags":["Contact"],
+        "summary":"A single Contact.",
+        "description":"Get a single Contact.",
+        "operationId":"getASingleContact",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "Contact id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Contact found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Contact"],
+        "summary": "Edit Contact",
+        "description": "Admin Can only  Update an existing Contact",
+        "operationId": "updateContact",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Tags object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Contact"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Contact id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Contact"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Contact updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Contact"],
+        "summary": "INDEX-25 ||  delete Contact",
+        "description": "Delete an existing Contact",
+        "operationId": "deleteContact",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Contact id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Contact not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+
+    "/api/ratings":{
+      "get":{
+        "tags":["Rating"],
+        "summary":"Get all Ratings.",
+        "description":"Get all Ratings.",
+        "operationId":"getAllRatings",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Rating found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Rating"],
+        "summary": "add new Rating.",
+        "description": "add Rating.",
+        "operationId": "AddRating",
+         "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create Rating object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Rating"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/ratings/{id}":{
+      "get":{
+        "tags":["Rating"],
+        "summary":"A single Rating.",
+        "description":"Get a single Rating.",
+        "operationId":"getASingleRating",
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "parameters": [  {
+          "in": "path",
+          "name": "id",
+          "description": "order id.",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "No Rating found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Rating"],
+        "summary": "Edit Rating",
+        "description": "Admin Can only  Update an existing Rating",
+        "operationId": "updateRating",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Update Rating object",
+          "required": false,
+          "schema": {
+            "$ref": "#/definitions/Rating"
+          }
+         },
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Rating id.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Rating"
+          }
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+           "200": {
+            "description": "Rating updated."
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Rating not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Rating"],
+        "summary": "Delete Rating",
+        "description": "Delete an existing Rating",
+        "operationId": "deleteRating",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+         {
+          "in": "path",
+          "name": "id",
+          "description": "Rating id.",
+          "required": true
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "API key",
+          "required": true,
+          "type": "string",
+          "format": "string",
+          "default": "xxxx"
+          }],
+        "responses": {
+          "200": {
+            "description": "No content found"
+          },
+          "404": {
+            "description": "Rating not found."
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+
+
+
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+},
+  "definitions": {
+     "password": {
+       "type": "object",
+      "properties": {
+      "oldPassword":{
+        "type":"string"
+      },
+      "newPassword":{
+        "type":"string"
+      }
+    }
+    },
+    "User": {
+    "type": "object",
+    "properties": {
+    "name": {
+      "type":"string"
+    },
+    "countryCode":{
+      "type":"integer"
+    },
+    "mobileNumber":{
+      "type":"integer"
+    },
+    "address":{
+      "type":"string"
+    },
+    "pincode":{
+      "type":"integer"
+    },
+    "email": {
+      "type": "string",
+      "required":true
+    },
+    "birthDate":{
+      "type":"string"
+    },
+    "gender":{
+      "type":"string"
+    },
+    "role": {
+      "type": "string",
+      "default": "user"
+    },
+    "imageUrl":{
+      "type":"string"
+    },
+    "password": {
+      "type": "string",
+      "required":true
+    },
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+     "status": {
+        "type": "string",
+        "default": "Pending"
+      },
+      "address": {
+        "address": "String",
+        "name": "String",
+        "city" : "String",
+        "pincode" : "String"
+      },
+      "cart":[],
+     "grandTotal": {
+        "type": "integer",
+        "integer": true
+      },
+     "user": {
+         "type": "integer",
+         "format": "int64"
+      },
+    },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Upcoming": {
+      "type": "object",
+      "properties": {
+        "title":{
+          "type":"string"
+        },
+        "thumb":{
+          "type":"string"
+        },
+        "description":{
+          "type":"string"
+        },
+      },
+      "xml": {
+        "name": "Upcoming"
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "name":{
+          "type":"string"
+        },
+        "email":{
+          "type":"string"
+        },
+        "message":{
+          "type":"string"
+        },
+      },
+      "xml": {
+        "name": "Contact"
+      }
+    },
+    
+     "menuitemId": {
+      "type": "object",
+      "properties": {
+        "menuItem":{
+          "type":"string"
+        },
+        
+      },
+      "xml": {
+        "name": "menuitemId"
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+         "streetName": {
+         "type": "string"
+         },
+        "landmark": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Address"
+      }
+    },
+    "Favourite": {
+      "type": "object",
+      "properties": {
+         "userReaction": {
+            "type":"String"
+          },
+          "user": {
+           "type":"String"
+          },
+          "menuItem": {
+             "type":"String"
+          },
+      },
+      "xml": {
+        "name": "Favourite"
+      }
+    },
+    "Rating": {
+      "type": "object",
+      "properties": {
+       "user":{
+          "type":"string"
+        }, 
+        "order":{
+          "type": "string",
+        },
+        "menuItem":{
+          "type":"string"
+        },
+        "rating": {
+          "type":"integer",
+        },
+        "comment": {
+          "type":"string"
+        },
+      },
+      "xml": {
+        "name": "Rating"
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+         "sender": {
+          "type":"String"
+         },
+         "receiver": {
+          "type":"String"
+         },
+          "message": {
+             "type":"String"
+          },
+      },
+      "xml": {
+        "name": "Message"
+      }
+    },
+    "Setting": {
+      "type": "object",
+      "properties": {
+         "globalVAT": {
+          "type":"integer"
+         }
+      },
+      "xml": {
+        "name": "Setting"
+      }
+    },
+    "News": {
+      "type": "object",
+      "properties": {
+        "thumb": {
+         "type":"string"
+        },
+        "title": {
+          "type":"string"
+        },
+        "shortDescription": {
+          "type":"string"
+        },
+        "fullDescription": {
+          "type":"string"
+        },
+       },
+      "xml": {
+        "name": "Upcoming"
+      }
+    },
+    "Booktable": {
+      "type": "object",
+      "properties": {
+        "time":{
+          "type":"string"
+        },
+       "date":{
+         "type":"date"
+        },
+        "person":{
+          "type":"integer"
+        }
+       },
+      "xml": {
+        "name": "Upcoming"
+      }
+    },
+    "Business": {
+      "type": "object",
+      "properties": {
+        "email": {
+    "type":"string"
+  },
+  "profession": {
+    "type":"string"
+  },
+  "description": {
+    "type":"string"
+  },
+  "address": {
+    "type":"array"
+  },
+  "facebookUrl": {
+    "type": "string"
+  },
+  "instagramUrl": {
+    "type":"string"
+  },
+  "twitterUrl": {
+    "type":"string"
+  },
+  "officeLocation": {
+    "type":"array"
+  },
+  "phoneNumber": {
+    "type": "Number"
+  },
+  "pinterestPage": {
+    "type":"string"
+  },
+  "storeName": {
+    "type":"string"
+  },
+  "mapAnnotation": {
+    "type":"array"
+  },
+  "mapOriginLatitude": {
+    "type":"Number"
+  },
+  "mapOriginLongitude": {
+    "type":"Number"
+  },
+  "mapZoomLevel": {
+    "type":"Number"
+  },
+},
+      "xml": {
+        "name": "Upcoming"
+      }
+    },
+
+
+
+
+
+    "Category": {
+      "type": "object",
+      "properties": {
+      "title":{
+        "type":"string"
+       },
+       "thumb":{
+          "type":"string"
+        },
+
+       "description":{
+        "type":"string"
+       },
+      },
+      "xml": {
+        "name": "Category"
+      }
+    },
+
+    "Coupon": {
+      "type": "object",
+      "properties": {
+        "name":{
+        "type":"string"
+       },
+       "value":{
+        "type":"Number"
+       },
+      },
+      "xml": {
+        "name": "Coupon"
+      }
+    },
+    "Settings": {
+      "type": "object",
+      "properties": {
+        "totalVat":{
+        "type":"Number"
+       }
+      },
+      "xml": {
+        "name": "Settings"
+      }
+    },
+
+    "Tags": {
+      "type": "object",
+      "properties": {
+        "name":{
+        "type":"String"
+       }
+      },
+      "xml": {
+        "name": "Tags"
+      }
+    },
+    "menuItems": {
+      "type": "object",
+      "properties": {
+       "title":{
+        "type":"String"
+       },
+       "category":{
+          "type": "integer",
+               "format": "int64"
+        },
+       "price":[],
+       "extraOptions":[],
+       "description":{
+        "type":"String"
+       },
+       "thumb":{
+        "type":"String"
+       },
+      },
+      "xml": {
+        "name": "Product"
+      }
+    },
+    
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
